@@ -72,3 +72,21 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](LICENSE).
 # NestJS-Fundamentals-App-practice
+
+Nest-cli-command:
+```
+npm run start:dev // start dev module
+
+nest g controller/service/module _name_ // create module file
+nest g class path/{create/update}-{name}.dto --no-spec // create DTO file
+```
+
+git-branch:
+```
+section_2: postgres
+```
+
+docker-compose command: 
+```
+CLI >> docker-compose up -d
+```
