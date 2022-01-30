@@ -26,7 +26,10 @@ export class Coffee {
   // Many to many table method #2
   @JoinTable() // foreign table join in coffee table
   @ManyToMany((type) => Flavor, (flavor) => flavor.coffees, {
-    cascade: true, //['insert']
+    cascade: true, //['insert'] auto insert new flavor data in Flavor table
   }) // this type set to flavor, and coffees <=> flavors
   flavors: Flavor[];
+
+  @Column({ default: 0 }) // recommendation of coffee
+  recommendation: number;
 }
