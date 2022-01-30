@@ -8,9 +8,10 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { CoffeesService } from './coffees.service';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
+import { CoffeesService } from './coffees.service';
 
 @Controller('coffees')
 export class CoffeesController {
@@ -18,10 +19,11 @@ export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
 
   @Get() // paginationQuery 限縮搜尋資料庫table的範圍
-  findAll(@Query() paginationQuery) {
+  findAll(@Query() paginationQuery: PaginationQueryDto) {
     // limit 限制多少資料數量, offset 宣告要跳過哪些列資料
     // const { limit, offset } = paginationQuery;
-    return this.coffeesService.findAll();
+
+    return this.coffeesService.findAll(paginationQuery);
     // return `this action returns all coffees. Limit: ${limit}, Offset: ${offset}`;
   }
 
