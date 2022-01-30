@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 // data transaction to suggest user to get certain coffee
+@Index(['name', 'type'])
 @Entity()
 export class Event {
   @PrimaryGeneratedColumn()
@@ -9,6 +10,7 @@ export class Event {
   @Column()
   type: string;
 
+  @Index()
   @Column()
   name: string;
 
