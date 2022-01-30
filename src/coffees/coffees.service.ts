@@ -1,12 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Coffee } from './entities/coffee.entity';
+import { Connection, Repository } from 'typeorm';
 
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
+import { Event } from '../events/entities/event.entity';
 
 @Injectable()
 export class CoffeesService {
@@ -15,6 +16,7 @@ export class CoffeesService {
     private readonly coffeeRepository: Repository<Coffee>,
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
+    private readonly connection: Connection, // For data transaction
   ) {}
 
   findAll(paginationQuery: PaginationQueryDto) {
@@ -76,7 +78,36 @@ export class CoffeesService {
     return this.coffeeRepository.remove(coffee);
   }
 
+  async recommendCoffee(coffee: Coffee) {
+    // In real world application, this should be wrapped in a single module
+    // Handle user to recommend coffee
+    const queryRunner = this.connection.createQueryRunner();
+
+    // Open connection
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      // Increase recommendations number, and save new recommendEvent data, commitTransaction
+      coffee.recommendation++;
+      const recommendEvent = new Event();
+      recommendEvent.name = 'recommend_coffee';
+      recommendEvent.type = 'coffee';
+      recommendEvent.payload = { coffeeId: coffee.id };
+
+      await queryRunner.manager.save(coffee);
+      await queryRunner.manager.save(recommendEvent);
+      await queryRunner.commitTransaction();
+    } catch (error) {
+      // If recommendEvent object has wrong property, throw error and rollbackTransaction
+      await queryRunner.rollbackTransaction();
+    } finally {
+      // When anything is finish, close and release the transaction
+      await queryRunner.release();
+    }
+  }
+
   private async preloadFlavorByName(name: string): Promise<Flavor> {
+    // Check Flavor have existed?
     const existingFlavor = await this.flavorRepository.findOne({ name });
     if (existingFlavor) {
       // this flavors have already existed
