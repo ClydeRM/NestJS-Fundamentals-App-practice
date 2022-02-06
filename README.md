@@ -77,8 +77,9 @@ Nest-cli-command:
 ```
 npm run start:dev // start dev module
 
-nest g controller/service/module _name_ // create module file
-nest g class path/{create/update}-{name}.dto --no-spec // create DTO file
+nest g controller/service/module _name_ // Create nest file
+nest g class path/{create/update}-{name}.dto --no-spec // Create DTO file
+nest g class path/{name}.entity --no-spec // Create new entity file, Need to rename module name
 ```
 
 git-branch:
@@ -88,5 +89,20 @@ section_2: postgres
 
 docker-compose command: 
 ```
-CLI >> docker-compose up -d
+CLI >> docker-compose up -d // Start up all container
+CLI >> docker-compose up db -d // Only start up db container
+CLI >> docker-compose down // Close all container
+```
+
+DB Migration: (TypeOrm)
+* Migration 可以更輕鬆修改欄位名稱，避免修改時欄位資料消失或錯誤
+```
+#preprocessing
+npm run build // build whole project to dist folder
+
+npx typeorm migration:create -n _file_name_ // Create migration file
+npx typeorm migration:run // Do update
+npx typeorm migration:revert // Undo update
+
+npx typeorm migration:generate -n _file_name_ // auto catch schema changed and generate a particular migration file
 ```
