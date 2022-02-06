@@ -7,10 +7,12 @@ import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
 
+class MockCoffeesService {} // # ideal method,use mock service for unit test
+
 @Module({
   imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])], // Use typeorm mapping entity and sql table
   controllers: [CoffeesController],
-  providers: [CoffeesService],
+  providers: [{ provide: CoffeesService, useValue: new MockCoffeesService() }],
   exports: [CoffeesService],
 })
 export class CoffeesModule {}
