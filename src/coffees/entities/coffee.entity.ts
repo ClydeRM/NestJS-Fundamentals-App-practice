@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Column,
   Entity,
@@ -25,9 +26,14 @@ export class Coffee {
 
   // Many to many table method #2
   @JoinTable() // foreign table join in coffee table
-  @ManyToMany((type) => Flavor, (flavor) => flavor.coffees, {
-    cascade: true, //['insert'] auto insert new flavor data in Flavor table
-  }) // this type set to flavor, and coffees <=> flavors
+  @ManyToMany(
+    // this type set to flavor, and coffees <=> flavors
+    (type) => Flavor,
+    (flavor) => flavor.coffees,
+    {
+      cascade: true, //['insert'] auto insert new flavor data in Flavor table
+    },
+  )
   flavors: Flavor[];
 
   @Column({ default: 0 }) // recommendation of coffee
