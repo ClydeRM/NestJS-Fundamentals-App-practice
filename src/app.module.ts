@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
+import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { CoffeesModule } from './coffees/coffees.module';
       autoLoadEntities: true, // If option not found, try reinstall @nestjs/typeorm
       synchronize: true, // shouldn't be used in production - otherwise you can lose production data #自動產生entity的SQL table
     }),
+    CoffeeRatingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
