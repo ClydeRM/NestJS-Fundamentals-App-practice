@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
 
@@ -9,6 +9,8 @@ import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
 
+import { COFFEE_BRANDS } from './coffees.constants';
+
 @Injectable()
 export class CoffeesService {
   constructor(
@@ -17,7 +19,10 @@ export class CoffeesService {
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
     private readonly connection: Connection, // For data transaction
-  ) {}
+    @Inject(COFFEE_BRANDS) coffeeBrands: string[], // inject certain data or mock data for testing service
+  ) {
+    console.log(coffeeBrands); // Log inject data in console
+  }
 
   findAll(paginationQuery: PaginationQueryDto) {
     // limit 限制多少資料數量, offset 宣告要跳過哪些列資料
@@ -60,8 +65,8 @@ export class CoffeesService {
         updateCoffeeDto.flavors.map((name) => this.preloadFlavorByName(name)),
       ));
 
+    // Repository.preload() If an entity exists already, preload replaces all of the values with the new ones passed
     const coffee = await this.coffeeRepository.preload({
-      // Repository.preload() create new entity base on original entity
       id: +id,
       ...updateCoffeeDto,
       flavors,
