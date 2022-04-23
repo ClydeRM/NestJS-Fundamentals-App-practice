@@ -9,7 +9,7 @@ import {
 import { Flavor } from './flavor.entity';
 
 // Definition of coffee data entity.
-@Entity() // sql table === 'coffees'
+@Entity() // sql table === 'coffee'
 export class Coffee {
   @PrimaryGeneratedColumn()
   id: number;
