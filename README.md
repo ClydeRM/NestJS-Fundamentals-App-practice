@@ -77,6 +77,8 @@ Nest-cli-command:
 ```
 npm run start:dev // start dev module
 
+nest g controller/service/module path/path --dry-run // 只顯示結果，常測試檔案名有無衝突
+
 nest g controller/service/module _name_ // Create nest file
 nest g class path/{create/update}-{name}.dto --no-spec // Create DTO file
 nest g class path/{name}.entity --no-spec // Create new entity file, Need to rename module name
@@ -92,6 +94,16 @@ docker-compose command:
 CLI >> docker-compose up -d // Start up all container
 CLI >> docker-compose up db -d // Only start up db container
 CLI >> docker-compose down // Close all container
+```
+
+docker exec container-compose
+```
+docker exec -it __Pid__ bash
+```
+
+Login PostgreSQL
+```
+psql -U postgres 
 ```
 
 DB Migration: (TypeOrm)
