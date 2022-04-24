@@ -27,7 +27,7 @@ export class CoffeesService {
     private readonly connection: Connection, // For data transaction
     @Inject(COFFEE_BRANDS) coffeeBrands: string[], // inject certain data or mock data for testing service
   ) {
-    console.log(coffeeBrands); // Log inject data in console
+    console.log('CoffeesService instantiated'); // Log inject data in console
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
