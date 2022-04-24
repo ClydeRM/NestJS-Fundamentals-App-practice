@@ -1,4 +1,4 @@
-import { Injectable, Module } from '@nestjs/common';
+import { Module, Scope } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 
@@ -24,6 +24,7 @@ import { COFFEE_BRANDS } from './coffees.constants';
         const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe']);
         return coffeeBrands;
       },
+      scope: Scope.TRANSIENT,
     }, // Static Custom provider useFactory "Async" method, retrieve data from database use typeorm connection
   ],
   exports: [CoffeesService],
