@@ -3,11 +3,14 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
   Patch,
   Post,
   Query,
 } from '@nestjs/common';
+import { REQUEST } from '@nestjs/core';
+import { Request } from 'express';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
@@ -16,7 +19,13 @@ import { CoffeesService } from './coffees.service';
 @Controller('coffees')
 export class CoffeesController {
   // 注入service 只有在這個類別可使用,而且只能用不能更改
-  constructor(private readonly coffeesService: CoffeesService) {}
+  constructor(
+    private readonly coffeesService: CoffeesService,
+    @Inject(REQUEST) private readonly request: Request, // Show all Request http detail like header, ip address etc.
+  ) {
+    console.log('CoffeesController instantiated');
+    //console.log(request);
+  }
 
   @Get() // paginationQuery 限縮搜尋資料庫table的範圍
   findAll(@Query() paginationQuery: PaginationQueryDto) {
