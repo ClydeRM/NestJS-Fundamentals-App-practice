@@ -1,5 +1,6 @@
 import { Module, Scope } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { Connection } from 'typeorm';
 
 import { CoffeesController } from './coffees.controller';
@@ -13,7 +14,7 @@ import { Event } from '../events/entities/event.entity';
 import { COFFEE_BRANDS } from './coffees.constants';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])], // Use typeorm mapping entity and sql table
+  imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event]), ConfigModule], // Use typeorm mapping entity and sql table
   controllers: [CoffeesController],
   providers: [
     CoffeesService,
