@@ -5,6 +5,7 @@ import {
   Injectable,
   Scope,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
 
@@ -26,8 +27,15 @@ export class CoffeesService {
     private readonly flavorRepository: Repository<Flavor>,
     private readonly connection: Connection, // For data transaction
     @Inject(COFFEE_BRANDS) coffeeBrands: string[], // inject certain data or mock data for testing service
+    private readonly configService: ConfigService,
   ) {
-    console.log('CoffeesService instantiated'); // Log inject data in console
+    // console.log('CoffeesService instantiated'); // Log inject data in console
+    // ConfigService.get<T>('SetValue','DefaultValue')
+    const databaseHost = this.configService.get<string>(
+      'DATABASE_HOST',
+      'localhost',
+    );
+    console.log(databaseHost);
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
