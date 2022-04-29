@@ -5,7 +5,7 @@ import {
   Injectable,
   Scope,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService, ConfigType } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
 
@@ -16,9 +16,12 @@ import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
 
+// A Provider_Token for inject mock data
 import { COFFEE_BRANDS } from './coffees.constants';
+// Coffees's ConfigObject namespaces key value
+import coffeesConfig from './config/coffees.config';
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable({ scope: Scope.DEFAULT })
 export class CoffeesService {
   constructor(
     @InjectRepository(Coffee) // Use Repository register coffee entity to PGSql
@@ -27,12 +30,12 @@ export class CoffeesService {
     private readonly flavorRepository: Repository<Flavor>,
     private readonly connection: Connection, // For data transaction
     @Inject(COFFEE_BRANDS) coffeeBrands: string[], // inject certain data or mock data for testing service
-    private readonly configService: ConfigService,
+    @Inject(coffeesConfig.KEY) // Coffees's ConfigObject namespaces key value
+    private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,
   ) {
     // console.log('CoffeesService instantiated'); // Log inject data in console
-    // ConfigService.get<T>('SetValue','DefaultValue')
-    const databaseHost = this.configService.get('database.host', 'localhost');
-    console.log(databaseHost);
+    // ConfigService.get<T>('SetValue','DefaultValue') // [hint] get method does't have type safety, must avoid it
+    console.log(coffeesConfiguration.foo);
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
