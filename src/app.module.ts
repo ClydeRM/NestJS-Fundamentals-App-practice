@@ -11,6 +11,19 @@ import appConfig from './config/app.config';
 
 @Module({
   imports: [
+    TypeOrmModule.forRootAsync({
+      // Avoid App-Crash because of ENV haven't loaded before ConfigModule instantiated
+      useFactory: () => ({
+        type: 'postgres',
+        host: process.env.DATABASE_HOST,
+        port: +process.env.DATABASE_PORT,
+        username: process.env.DATABASE_USER,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_NAME,
+        autoLoadEntities: true, // If option not found, try reinstall @nestjs/typeorm
+        synchronize: true, // shouldn't be used in production - otherwise you can lose production data #自動產生entity的SQL table
+      }),
+    }),
     ConfigModule.forRoot({
       load: [appConfig],
       validationSchema: Joi.object({
@@ -19,16 +32,6 @@ import appConfig from './config/app.config';
       }),
     }),
     CoffeesModule,
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DATABASE_HOST,
-      port: +process.env.DATABASE_PORT,
-      username: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE_NAME,
-      autoLoadEntities: true, // If option not found, try reinstall @nestjs/typeorm
-      synchronize: true, // shouldn't be used in production - otherwise you can lose production data #自動產生entity的SQL table
-    }),
     CoffeeRatingModule,
   ],
   controllers: [AppController],
