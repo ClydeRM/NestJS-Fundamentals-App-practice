@@ -10,11 +10,17 @@ import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
 
-// Static Custom provider
+// Provider_Token
 import { COFFEE_BRANDS } from './coffees.constants';
 
+// Partial Registration of ConfigObject
+import coffeesConfig from './config/coffees.config';
+
 @Module({
-  imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event]), ConfigModule], // Use typeorm mapping entity and sql table
+  imports: [
+    TypeOrmModule.forFeature([Coffee, Flavor, Event]),
+    ConfigModule.forFeature(coffeesConfig),
+  ], // Use typeorm mapping entity and sql table
   controllers: [CoffeesController],
   providers: [
     CoffeesService,
