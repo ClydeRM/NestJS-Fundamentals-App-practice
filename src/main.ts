@@ -22,8 +22,6 @@ async function bootstrap() {
   // 處理錯誤跟回覆錯誤訊息
   app.useGlobalFilters(new HttpExceptionFilter());
 
-  // 檢查權限
-  app.useGlobalGuards(new ApiKeyGuard());
   await app.listen(3000);
 }
 bootstrap();
