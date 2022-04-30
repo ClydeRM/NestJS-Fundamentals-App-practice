@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  SetMetadata,
 } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
@@ -15,6 +16,8 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { CoffeesService } from './coffees.service';
+// Custom Decorator
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('coffees')
 export class CoffeesController {
@@ -23,10 +26,11 @@ export class CoffeesController {
     private readonly coffeesService: CoffeesService,
     @Inject(REQUEST) private readonly request: Request, // Show all Request http detail like header, ip address etc.
   ) {
-    console.log('CoffeesController instantiated');
+    // console.log('CoffeesController instantiated');
     //console.log(request);
   }
 
+  @Public()
   @Get() // paginationQuery 限縮搜尋資料庫table的範圍
   findAll(@Query() paginationQuery: PaginationQueryDto) {
     // limit 限制多少資料數量, offset 宣告要跳過哪些列資料
