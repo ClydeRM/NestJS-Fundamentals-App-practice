@@ -2,6 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { ApiKeyGuard } from './common/guards/api-key.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,8 @@ async function bootstrap() {
   // 處理錯誤跟回覆錯誤訊息
   app.useGlobalFilters(new HttpExceptionFilter());
 
+  // 檢查權限
+  app.useGlobalGuards(new ApiKeyGuard());
   await app.listen(3000);
 }
 bootstrap();
