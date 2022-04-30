@@ -3,6 +3,7 @@ import {
   HttpStatus,
   Inject,
   Injectable,
+  NotFoundException,
   Scope,
 } from '@nestjs/common';
 import { ConfigService, ConfigType } from '@nestjs/config';
@@ -54,7 +55,8 @@ export class CoffeesService {
     });
     if (!coffee) {
       // If Not Found
-      throw new HttpException(`Coffee #${id} not found`, HttpStatus.NOT_FOUND);
+      // throw new HttpException(`Coffee #${id} not found`, HttpStatus.NOT_FOUND);
+      throw new NotFoundException(`Coffee #${id} not found`);
     }
     return coffee;
   }
@@ -87,13 +89,19 @@ export class CoffeesService {
     });
     if (!coffee) {
       // coffee not found
-      throw new HttpException(`Coffee #${id} not found`, HttpStatus.NOT_FOUND);
+      // throw new HttpException(`Coffee #${id} not found`, HttpStatus.NOT_FOUND);
+      throw new NotFoundException(`Coffee #${id} not found`);
     }
     return this.coffeeRepository.save(coffee);
   }
 
   async remove(id: string) {
     const coffee = await this.coffeeRepository.findOne(id);
+    if (!coffee) {
+      // coffee not found
+      // throw new HttpException(`Coffee #${id} not found`, HttpStatus.NOT_FOUND);
+      throw new NotFoundException(`Coffee #${id} not found`);
+    }
     return this.coffeeRepository.remove(coffee);
   }
 
