@@ -1,8 +1,13 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+
+// Filter
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+// Guard
 import { ApiKeyGuard } from './common/guards/api-key.guard';
+// Interceptor
+import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 import { WrapResponseInterceptor } from './common/interceptors/wrap-response.interceptor';
 
 async function bootstrap() {
@@ -24,7 +29,10 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
 
   // 測試Interceptor的lifetime
-  app.useGlobalInterceptors(new WrapResponseInterceptor());
+  app.useGlobalInterceptors(
+    new WrapResponseInterceptor(),
+    new TimeoutInterceptor(),
+  );
   await app.listen(3000);
 }
 bootstrap();
