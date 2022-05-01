@@ -39,7 +39,10 @@ export class CoffeesService {
     console.log(coffeesConfiguration.foo);
   }
 
-  findAll(paginationQuery: PaginationQueryDto) {
+  async findAll(paginationQuery: PaginationQueryDto) {
+    // Testing TimeoutInterceptor
+    // await new Promise((resolve) => setTimeout(resolve, 5000));
+
     // limit 限制多少資料數量, offset 宣告要跳過哪些列資料
     const { limit, offset } = paginationQuery;
     return this.coffeeRepository.find({
