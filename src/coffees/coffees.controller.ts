@@ -18,6 +18,8 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { CoffeesService } from './coffees.service';
 // Custom Decorator
 import { Public } from 'src/common/decorators/public.decorator';
+// Custom Pipe
+import { PraseIntPipe } from 'src/common/pipes/prase-int.pipe';
 
 @Controller('coffees')
 export class CoffeesController {
@@ -41,7 +43,9 @@ export class CoffeesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', PraseIntPipe) id: string) {
+    // console.log(id);
+
     return this.coffeesService.findOne(id);
     // return `this action returns #${id} coffee`;
   }
