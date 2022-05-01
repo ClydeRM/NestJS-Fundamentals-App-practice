@@ -15,7 +15,7 @@ export class WrapResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     // Every intercept method must return a 'Observable' from Rxjs library
     // CallHandler interface implement handle method. Call it can invoke the route handler method, If don't not invoke
-    console.log('Before...'); // Execute it before the route handler be called
+    // console.log('Before...'); // Execute it before the route handler be called
 
     // return next.handle().pipe(tap((data) => console.log('After...', data))); // Execute it after the route handler be called
     // tap() invokes an anonymous logging function upon graceful termination of the Observable stream
