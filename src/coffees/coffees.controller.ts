@@ -20,6 +20,7 @@ import { CoffeesService } from './coffees.service';
 import { Public } from 'src/common/decorators/public.decorator';
 // Custom Pipe
 import { PraseIntPipe } from 'src/common/pipes/prase-int.pipe';
+import { Protocol } from 'src/common/decorators/protocol.decorator';
 
 @Controller('coffees')
 export class CoffeesController {
@@ -29,14 +30,18 @@ export class CoffeesController {
     @Inject(REQUEST) private readonly request: Request, // Show all Request http detail like header, ip address etc.
   ) {
     // console.log('CoffeesController instantiated');
-    //console.log(request);
+    // console.log(request);
   }
 
   @Public()
   @Get() // paginationQuery 限縮搜尋資料庫table的範圍
-  findAll(@Query() paginationQuery: PaginationQueryDto) {
+  findAll(
+    @Protocol('https') protocol: string,
+    @Query() paginationQuery: PaginationQueryDto,
+  ) {
     // limit 限制多少資料數量, offset 宣告要跳過哪些列資料
     // const { limit, offset } = paginationQuery;
+    console.log(protocol);
 
     return this.coffeesService.findAll(paginationQuery);
     // return `this action returns all coffees. Limit: ${limit}, Offset: ${offset}`;
