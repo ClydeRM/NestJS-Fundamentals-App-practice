@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ApiKeyGuard } from './common/guards/api-key.guard';
+import { WrapResponseInterceptor } from './common/interceptors/wrap-response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,6 +23,8 @@ async function bootstrap() {
   // 處理錯誤跟回覆錯誤訊息
   app.useGlobalFilters(new HttpExceptionFilter());
 
+  // 測試Interceptor的lifetime
+  app.useGlobalInterceptors(new WrapResponseInterceptor());
   await app.listen(3000);
 }
 bootstrap();
