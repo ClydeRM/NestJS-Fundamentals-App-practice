@@ -1,4 +1,9 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "src",
+  "compilerOptions":{
+    "__comment__": "Load swagger plugin enable to use specific Decorator",
+    "deleteOutDir": true,
+    "plugins": ["@nestjs/swagger/plugin"]
+  }
 }
