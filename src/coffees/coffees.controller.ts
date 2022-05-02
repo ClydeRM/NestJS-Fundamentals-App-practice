@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
-import { ApiResponse, ApiForbiddenResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
@@ -23,6 +23,7 @@ import { Public } from 'src/common/decorators/public.decorator';
 import { PraseIntPipe } from 'src/common/pipes/prase-int.pipe';
 import { Protocol } from 'src/common/decorators/protocol.decorator';
 
+@ApiTags('coffees')
 @Controller('coffees')
 export class CoffeesController {
   // 注入service 只有在這個類別可使用,而且只能用不能更改
