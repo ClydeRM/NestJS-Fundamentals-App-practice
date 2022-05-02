@@ -1,6 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 // Filter
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
@@ -33,6 +34,18 @@ async function bootstrap() {
     new WrapResponseInterceptor(),
     new TimeoutInterceptor(),
   );
+
+  // Set OpenAPI specification property
+  const options = new DocumentBuilder()
+    .setTitle('Ilovecoffee')
+    .setDescription('Coffee application')
+    .setVersion('1.0.0')
+    .build();
+  // Create document
+  const document = SwaggerModule.createDocument(app, options);
+  // setup('RoutePathToSwaggerUI', 'APPInstance', 'DocumentObject');
+  SwaggerModule.setup('api', app, document); // UI setup in http://localhost:3000/api
+
   await app.listen(3000);
 }
 bootstrap();
