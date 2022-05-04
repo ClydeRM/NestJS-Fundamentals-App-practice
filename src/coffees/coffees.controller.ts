@@ -13,15 +13,15 @@ import {
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { ApiResponse, ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { CoffeesService } from './coffees.service';
 // Custom Decorator
-import { Public } from 'src/common/decorators/public.decorator';
+import { Public } from '../common/decorators/public.decorator';
 // Custom Pipe
-import { PraseIntPipe } from 'src/common/pipes/prase-int.pipe';
-import { Protocol } from 'src/common/decorators/protocol.decorator';
+import { PraseIntPipe } from '../common/pipes/prase-int.pipe';
+import { Protocol } from '../common/decorators/protocol.decorator';
 
 @ApiTags('coffees')
 @Controller('coffees')
